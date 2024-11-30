@@ -25,6 +25,7 @@ int main(){
         printf("\n");
         printf("\n X no se ha cargado nada, por lo tanto no se podra continuar X \n");
     } else{
+        system("cls");
         texto = carga_texto();
         todas_las_palabras = separa(texto,&palabras_cargadas);
         palabras_depuradas = depura(todas_las_palabras,palabras_cargadas);
@@ -88,3 +89,30 @@ char * carga_texto(){
 
     return texto;
 }
+
+struct pal * separa(char *texto, int *palabras_cargadas){
+    static struct todas_las_palabras[500];
+    char copia_texto[1000] = {0}, *token, delim[] = " .";
+    int long_palabra;
+
+    strcpy(copia_texto,texto);
+    token = strtok(copia_texto,delim);
+    while(token != NULL){
+        long_palabra = strlen(token);
+        if(long_palabra <=  25){
+            strcpy(todas_las_palabras[*palabras_cargadas],token);
+            palabras_cargadas++;
+        }
+
+        token = strtok(NULL,delim);
+    }
+
+    printf("\n *** TODO EL TEXTO FUE SEPARADO POR PALABRAS Y AGREGADOS A LA TABLA *** \n");
+    printf("\n");
+    system("cls");
+
+    return todas_las_palabras;
+}
+
+
+
