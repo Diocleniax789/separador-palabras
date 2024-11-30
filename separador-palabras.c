@@ -69,3 +69,22 @@ int carga_reserva(char pal_res[40][15]){
     return contador_palabras;
 }
 
+char * carga_texto(){
+    char caracter;
+    static char texto[1000];
+    int i = 0;
+
+    printf("\n + Escriba su texto aqui abajo: \n");
+    while((caracter = getchar()) != EOF && i < 1000){
+        texto[i] = caracter;
+        i++;
+    }
+
+    texto[i] = '\0';
+
+    printf("\n *** TEXTO CARGADO *** \n");
+    printf("\n");
+    system("pause");
+
+    return texto;
+}
