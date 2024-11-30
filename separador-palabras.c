@@ -29,3 +29,30 @@ int main(){
     return 0;
 }
 
+int carga_reserva(char pal_res[40][15]){
+    int i,contador_palabras = 0;
+    char palabra[15] = {0};
+
+    for(i = 0; i < 40; i++){
+        system("cls");
+        fflush(stdin);
+        printf("\n - Para finalizar con la carga, simplemente coloque '*' \n");
+        printf("\n");
+        printf("\n Palabra reserveda nro %i \n".i + 1);
+        printf("\n");
+        printf("\n + Ingrese la palabra reservada: ");
+        scanf("%s",palabra);
+        if(strcmp(palabra,"*") == 0){
+            break;
+        } else{
+            strcpy(pal_res[i],palabra);
+            contador_palabras++;
+            printf("\n *** Palabra reservada almacenada con exito! *** \n");
+            printf("\n");
+            system("cls");
+        }
+    }
+
+    printf("\n *** SE HAN CARGADO TODAS LAS PALABRAS RESERVADAS CON EXITO! *** \n");
+}
+
