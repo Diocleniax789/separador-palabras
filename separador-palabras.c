@@ -21,10 +21,15 @@ int main(){
     struct pal * palabras_depuradas;
 
     cant_pal_res = carga_reserva(pal_res);
-    texto = carga_texto();
-    todas_las_palabras = separa(texto,&palabras_cargadas);
-    palabras_depuradas = depura(todas_las_palabras,palabras_cargadas);
-    clasifica(palabras_depuradas,pal_res,cant_pal_res);
+    if(cant_pal_res == 0){
+        printf("\n");
+        printf("\n X no se ha cargado nada, por lo tanto no se podra continuar X \n");
+    } else{
+        texto = carga_texto();
+        todas_las_palabras = separa(texto,&palabras_cargadas);
+        palabras_depuradas = depura(todas_las_palabras,palabras_cargadas);
+        clasifica(palabras_depuradas,pal_res,cant_pal_res);
+    }
 
     return 0;
 }
@@ -53,6 +58,14 @@ int carga_reserva(char pal_res[40][15]){
         }
     }
 
-    printf("\n *** SE HAN CARGADO TODAS LAS PALABRAS RESERVADAS CON EXITO! *** \n");
+    if(contador_palabras == 0){
+        printf("\n");
+        printf("\n xxx NO SE HA CARGADO NADA! xxx\n");
+    } else{
+        printf("\n");
+        printf("\n *** SE HAN CARGADO TODAS LAS PALABRAS RESERVADAS CON EXITO! *** \n");
+    }
+
+    return contador_palabras;
 }
 
