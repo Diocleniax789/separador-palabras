@@ -13,6 +13,7 @@ char * carga_texto(void);
 struct pal * separa(char*,int*);
 struct pal * depura(struct pal*,int*);
 void clasifica(struct pal*,char pal_res[][15],int);
+void mostrar_clasificacion(struct pal*);
 
 int main(){
     int cant_pal_res,palabras_cargadas = 0;
@@ -28,8 +29,11 @@ int main(){
         system("cls");
         texto = carga_texto();
         todas_las_palabras = separa(texto,&palabras_cargadas);
-        palabras_depuradas = depura(todas_las_palabras,palabras_cargadas);
+        palabras_depuradas = depura(todas_las_palabras,&palabras_cargadas);
         clasifica(palabras_depuradas,pal_res,cant_pal_res);
+
+        mostrar_clasificacion(palabras_depuradas);
+
     }
 
     return 0;
@@ -44,7 +48,7 @@ int carga_reserva(char pal_res[40][15]){
         fflush(stdin);
         printf("\n - Para finalizar con la carga, simplemente coloque '*' \n");
         printf("\n");
-        printf("\n Palabra reserveda nro %i \n".i + 1);
+        printf("\n Palabra reserveda nro %i \n",i + 1);
         printf("\n");
         printf("\n + Ingrese la palabra reservada: ");
         scanf("%s",palabra);
@@ -91,7 +95,7 @@ char * carga_texto(){
 }
 
 struct pal * separa(char *texto, int *palabras_cargadas){
-    static struct todas_las_palabras[500];
+    static struct pal todas_las_palabras[500];
     char copia_texto[1000] = {0}, *token, delim[] = " .";
     int long_palabra;
 
@@ -100,7 +104,7 @@ struct pal * separa(char *texto, int *palabras_cargadas){
     while(token != NULL){
         long_palabra = strlen(token);
         if(long_palabra <=  25){
-            strcpy(todas_las_palabras[*palabras_cargadas],token);
+            strcpy(todas_las_palabras[*palabras_cargadas].palabra,token);
             palabras_cargadas++;
         }
 
@@ -120,7 +124,7 @@ struct pal * depura(struct pal *todas_las_palabras, int* palabras_cargadas){
   char palabra[25];
 
   j = 0;
-  for(i = 0; i < cantidad_pal_dep_guardadas && j < *todas_las_palabras; i++){
+  for(i = 0; i < cantidad_pal_dep_guardadas; i++){
     if(i == 0){
         strcpy(palabras_depuradas[cantidad_pal_dep_guardadas].palabra,todas_las_palabras[0].palabra);
         cantidad_pal_dep_guardadas++;
@@ -137,7 +141,7 @@ struct pal * depura(struct pal *todas_las_palabras, int* palabras_cargadas){
             pos++;
           }
 
-        } while(pos < cantidad_pal_dep_guardadas; && flag == 1);
+        } while(pos < cantidad_pal_dep_guardadas && flag == 1);
 
         if(flag == 1){
             printf("\n Palabra ya guardada en la tabla de depuradas \n");
@@ -153,3 +157,58 @@ struct pal * depura(struct pal *todas_las_palabras, int* palabras_cargadas){
   return palabras_depuradas;
 }
 
+void clasifica(struct pal *palabras_depuradas,char pal_res[][15],int cant_pal_res){
+    int i,pos = 0,flag = 0,long_pal,j,flag2;
+    char palabra[25];
+
+    for(i = 0; i < strcmp(palabras_depuradas[i].palabra,"*****") != 0; i++){
+        strcpy(palabra,palabras_depuradas[i].palabra);
+        do{
+            if(strcmp(palabra,pal_res[pos]) == 0){
+                flag = 1;
+                break;
+            } else{
+                pos++;
+            }
+        } while(pos < cant_pal_res && flag == 1);
+
+        if(flag == 1){
+            strcpy(palabras_depuradas[i].tipo,"Palabra reservada");
+        } else{
+            long_pal = strlen(palabra);
+            if(long_pal <= 8 && isalpha(palabra[0]) != 0){
+                flag2 = 0;
+                for(j = 1; j < long_pal; j++){
+                    if(isalnum(palabra[j] != 0 && palabra[j] == '_')){
+                        continue;
+                    } else{
+                        flag2 = 1;
+                        break;
+                    }
+                }
+
+                if(flag2 == 0){
+                    strcpy(palabras_depuradas[i].tipo,"Identificador");
+                } else{
+                    strcpy(palabras_depuradas[i].tipo,"Otro");
+                }
+
+            } else{
+                strcpy(palabras_depuradas[i].tipo,"Otro");
+
+            }
+        }
+    }
+}
+
+void mostrar_clasificacion(struct pal *palabras_depuradas){
+    int i;
+
+    printf("\n Clasificacion de palabras segun su tipo \n");
+    printf("\n ======================================= ");
+    for(i = 0; strcmp(palabras_depuradas[i].palabra,"*****") != 0; i++){
+        printf("\n + PALABRA: %s",palabras_depuradas[i].palabra);
+        printf("\n + TIPO: %s",palabras_depuradas[i].tipo);
+        printf("\n -------------------------------------------------- \n");
+    }
+}
