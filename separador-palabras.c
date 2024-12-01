@@ -114,5 +114,42 @@ struct pal * separa(char *texto, int *palabras_cargadas){
     return todas_las_palabras;
 }
 
+struct pal * depura(struct pal *todas_las_palabras, int* palabras_cargadas){
+  static struct pal palabras_depuradas[500];
+  int i,j,pos = 0,flag = 0,cantidad_pal_dep_guardadas = 0;
+  char palabra[25];
 
+  j = 0;
+  for(i = 0; i < cantidad_pal_dep_guardadas && j < *todas_las_palabras; i++){
+    if(i == 0){
+        strcpy(palabras_depuradas[cantidad_pal_dep_guardadas].palabra,todas_las_palabras[0].palabra);
+        cantidad_pal_dep_guardadas++;
+    } else{
+
+        strcpy(palabra,todas_las_palabras[j].palabra);
+
+        do{
+
+          if(strcmp(palabra,todas_las_palabras[pos].palabra) == 0){
+            flag = 1;
+            break;
+          } else{
+            pos++;
+          }
+
+        } while(pos < cantidad_pal_dep_guardadas; && flag == 1);
+
+        if(flag == 1){
+            printf("\n Palabra ya guardada en la tabla de depuradas \n");
+        } else{
+            strcpy(palabras_depuradas[cantidad_pal_dep_guardadas].palabra,palabra);
+            cantidad_pal_dep_guardadas++;
+        }
+    }
+  }
+
+  strcpy(palabras_depuradas[cantidad_pal_dep_guardadas].palabra,"*****");
+
+  return palabras_depuradas;
+}
 
